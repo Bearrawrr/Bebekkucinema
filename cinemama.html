@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bear & Duck Movies</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg1: #fff5d6;
+      --bg2: #ffe0ef;
+      --bg3: #e5f8ff;
+      --ink: #2c2a33;
+      --muted: #6a6676;
+      --card: rgba(255,255,255,0.82);
+      --line: rgba(255,255,255,0.9);
+      --shadow: 0 24px 60px rgba(62, 39, 77, 0.14);
+      --pink: #ff6fa6;
+      --pink-dark: #e94f8a;
+      --gold: #ffd36d;
+      --green: #7ddc9a;
+      --green-dark: #43b86b;
+      --red: #ff6b6b;
+      --red-dark: #e64f4f;
+      --blue: #6ccbf7;
+      --purple: #8877ff;
+      --radius-xl: 30px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { min-height: 100%; }
+
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.85), transparent 30%),
+        linear-gradient(135deg, var(--bg1), var(--bg2) 45%, var(--bg3));
+      overflow-x: hidden;
+    }
+
+    .float {
+      position: fixed;
+      z-index: 0;
+      font-size: 58px;
+      opacity: 0.55;
+      filter: drop-shadow(0 10px 15px rgba(0,0,0,0.08));
+      animation: drift 6s ease-in-out infinite;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .float.bear { top: 26px; left: 24px; }
+    .float.duck { top: 72px; right: 30px; animation-delay: 1.2s; }
+    .float.sparkle1 { bottom: 70px; left: 60px; font-size: 34px; animation-delay: 0.4s; }
+    .float.sparkle2 { bottom: 90px; right: 60px; font-size: 34px; animation-delay: 1.4s; }
+
+    @keyframes drift {
+      50% { transform: translateY(-18px) rotate(4deg); }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 28px 18px 42px;
+    }
+
+    .hidden { display: none !important; }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr auto;
+      gap: 18px;
+      align-items: end;
+      margin-bottom: 18px;
+    }
+
+    .hero-card, .panel, .login-card, .summary-card {
+      background: var(--card);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card {
+      padding: 26px 26px 22px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      inset: auto -40px -40px auto;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,111,166,0.18), transparent 65%);
+      pointer-events: none;
+    }
+
+    h1, h2, h3, .brand {
+      font-family: "Fredoka", sans-serif;
+      margin: 0;
+      letter-spacing: 0.2px;
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 4vw, 4.2rem);
+      line-height: 0.95;
+    }
+
+    .subtitle {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 0.98rem;
+      max-width: 58ch;
+    }
+
+    .top-badge {
+      align-self: stretch;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+      padding: 18px 22px;
+      border-radius: 26px;
+      background: linear-gradient(160deg, rgba(255,255,255,0.88), rgba(255,255,255,0.72));
+      border: 1px solid rgba(255,255,255,0.95);
+      box-shadow: 0 16px 34px rgba(0,0,0,0.08);
+      min-width: 230px;
+    }
+
+    .top-badge .brand {
+      font-size: 1.15rem;
+      color: var(--pink-dark);
+    }
+
+    .top-badge .meta {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+      gap: 20px;
+    }
+
+    .panel, .login-card, .summary-card {
+      padding: 24px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .section-title .icon {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: linear-gradient(145deg, rgba(255,111,166,0.18), rgba(255,211,109,0.2));
+      font-size: 20px;
+    }
+
+    .section-title p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .login-wrap {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 460px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-emoji {
+      font-size: 3rem;
+      margin-bottom: 12px;
+      display: inline-block;
+      animation: drift 6s ease-in-out infinite;
+    }
+
+    .field {
+      text-align: left;
+      margin-top: 14px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #4a4653;
+      margin-bottom: 8px;
+    }
+
+    input, select {
+      width: 100%;
+      border: 1px solid rgba(77, 68, 91, 0.12);
+      background: rgba(255,255,255,0.9);
+      padding: 13px 14px;
+      border-radius: 16px;
+      outline: none;
+      font: inherit;
+      color: var(--ink);
+      transition: 0.2s ease;
+    }
+
+    input:focus, select:focus {
+      border-color: rgba(255,111,166,0.45);
+      box-shadow: 0 0 0 4px rgba(255,111,166,0.12);
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 13px 18px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      user-select: none;
+    }
+
+    .btn:active { transform: translateY(1px); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--pink), var(--pink-dark));
+      color: #fff;
+      box-shadow: 0 14px 30px rgba(255,111,166,0.28);
+    }
+
+    .btn-primary:hover { transform: translateY(-1px); }
+
+    .btn-soft {
+      background: #fff;
+      color: var(--ink);
+      border: 1px solid rgba(70, 56, 94, 0.08);
+    }
+
+    .error {
+      margin-top: 12px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--red-dark);
+      min-height: 1.2em;
+    }
+
+    .movie-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .movie-grid-large {
+      align-items: stretch;
+    }
+
+    .movie-card {
+      position: relative;
+      border: 0;
+      border-radius: 26px;
+      overflow: hidden;
+      cursor: pointer;
+      text-align: left;
+      min-height: 460px;
+      padding: 0;
+      box-shadow: 0 18px 36px rgba(0,0,0,0.10);
+      transform: translateZ(0);
+      transition: 0.22s ease;
+      background: #fff;
+    }
+
+    .movie-card:hover { transform: translateY(-4px) scale(1.01); }
+
+    .poster {
+      position: absolute;
+      inset: 0;
+      background: var(--bg);
+    }
+
+    .poster-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(27, 22, 33, 0.06) 60%, rgba(15, 15, 20, 0.42));
+    }
+
+    .poster-content {
+      position: relative;
+      height: 100%;
+      padding: 24px 22px 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: #fff;
+    }
+
+    .poster-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      gap: 12px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.24);
+      border: 1px solid rgba(255,255,255,0.22);
+      backdrop-filter: blur(10px);
+      color: #fff;
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .movie-emoji {
+      font-size: 2.4rem;
+      filter: drop-shadow(0 8px 14px rgba(0,0,0,0.24));
+    }
+
+    .movie-title {
+      font-size: 2.05rem;
+      line-height: 1.02;
+      margin-bottom: 10px;
+      max-width: 11ch;
+      text-wrap: balance;
+    }
+
+    .movie-sub {
+      margin: 0;
+      font-size: 1rem;
+      opacity: 0.92;
+    }
+
+    .movie-desc {
+      font-size: 0.92rem;
+      opacity: 0.86;
+      margin-top: 10px;
+      max-width: 34ch;
+      line-height: 1.45;
+    }
+
+    .movie-card.selected {
+      outline: 3px solid rgba(255,111,166,0.35);
+      transform: translateY(-4px) scale(1.01);
+    }
+
+    .movie-card.selected::after {
+      content: "Chosen ✓";
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 2;
+      background: rgba(255,255,255,0.92);
+      color: var(--pink-dark);
+      font-size: 0.78rem;
+      font-weight: 800;
+      border-radius: 999px;
+      padding: 7px 10px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+    }
+
+    .cta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+      padding: 16px 18px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.78), rgba(255,245,214,0.82));
+      border: 1px solid rgba(255,255,255,0.9);
+    }
+
+    .mini-note {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 4px;
+    }
+
+    .screen-block {
+      background: linear-gradient(180deg, #1d1b25, #2a2735);
+      border-radius: 28px;
+      padding: 18px 18px 22px;
+      color: #fff;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+    }
+
+    .screen {
+      text-align: center;
+      margin: 0 auto 16px;
+      width: min(80%, 480px);
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.10);
+      color: rgba(255,255,255,0.95);
+      font-weight: 800;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+    }
+
+    .seat-grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    .seat-row {
+      display: grid;
+      grid-template-columns: 30px repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      align-items: center;
+    }
+
+    .row-label {
+      text-align: center;
+      font-weight: 800;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .seat {
+      border: none;
+      border-radius: 16px;
+      min-height: 58px;
+      padding: 10px 8px;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+      transition: 0.18s ease;
+      box-shadow: inset 0 -3px 0 rgba(0,0,0,0.08);
+    }
+
+    .seat:hover:not(.occupied) { transform: translateY(-2px); }
+
+    .seat.available {
+      background: linear-gradient(180deg, #9cf0b2, #62d588);
+      color: #0f2a17;
+    }
+
+    .seat.selected {
+      background: linear-gradient(180deg, #ff8db5, #ff5f99);
+      color: #fff;
+      box-shadow: 0 0 0 3px rgba(255,111,166,0.35), inset 0 -3px 0 rgba(0,0,0,0.08);
+    }
+
+    .seat.occupied {
+      background: linear-gradient(180deg, #ff8b8b, #e54c4c);
+      color: #fff;
+      cursor: not-allowed;
+      opacity: 0.98;
+    }
+
+    .seat-key {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+      color: rgba(255,255,255,0.78);
+      font-size: 0.86rem;
+    }
+
+    .key {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      display: inline-block;
+    }
+
+    .dot.green { background: linear-gradient(180deg, #9cf0b2, #62d588); }
+    .dot.pink { background: linear-gradient(180deg, #ff8db5, #ff5f99); }
+    .dot.red { background: linear-gradient(180deg, #ff8b8b, #e54c4c); }
+
+    .seat-footer, .pay-footer {
+      margin-top: 18px;
+      padding: 16px 18px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.84);
+      border: 1px solid rgba(255,255,255,0.95);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,111,166,0.10);
+      color: var(--pink-dark);
+      font-weight: 800;
+      font-size: 0.84rem;
+    }
+
+    .summary-card {
+      position: sticky;
+      top: 18px;
+    }
+
+    .summary-list {
+      margin-top: 18px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      padding: 13px 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.74);
+      border: 1px solid rgba(70, 56, 94, 0.08);
+      font-size: 0.93rem;
+    }
+
+    .summary-item span:first-child {
+      color: var(--muted);
+    }
+
+    .summary-item strong {
+      text-align: right;
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .tab {
+      border: 1px solid rgba(70, 56, 94, 0.08);
+      background: rgba(255,255,255,0.86);
+      color: var(--ink);
+      border-radius: 18px;
+      padding: 14px 12px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .tab.active {
+      background: linear-gradient(135deg, var(--pink), var(--pink-dark));
+      color: #fff;
+      box-shadow: 0 12px 24px rgba(255,111,166,0.24);
+    }
+
+    .pay-card {
+      margin-top: 14px;
+      border-radius: 22px;
+      padding: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,247,252,0.92));
+      border: 1px solid rgba(255,111,166,0.10);
+    }
+
+    .pay-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+    }
+
+    .coupon-box {
+      background: linear-gradient(135deg, rgba(255,223,239,0.7), rgba(255,246,214,0.75));
+    }
+
+    .card-box {
+      background: linear-gradient(135deg, rgba(219,244,255,0.82), rgba(232,225,255,0.82));
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .label-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 6px;
+      align-items: center;
+    }
+
+    .inline-note {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .done-card {
+      text-align: center;
+      padding: 38px 24px;
+    }
+
+    .done-emoji {
+      font-size: 3.4rem;
+      margin-bottom: 8px;
+      display: inline-block;
+      animation: drift 6s ease-in-out infinite;
+    }
+
+    .done-title {
+      font-size: clamp(2rem, 4vw, 3.6rem);
+      color: var(--ink);
+    }
+
+    .done-sub {
+      margin-top: 10px;
+      color: var(--muted);
+    }
+
+    .tag-row {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .tag-pill {
+      background: rgba(255,255,255,0.86);
+      border: 1px solid rgba(70, 56, 94, 0.08);
+      border-radius: 999px;
+      padding: 9px 13px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #59536a;
+    }
+
+    .small-btn-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .notice {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .movie-now {
+      margin-top: 12px;
+      padding: 14px 16px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.78);
+      border: 1px solid rgba(255,255,255,0.88);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .movie-now strong {
+      font-family: "Fredoka", sans-serif;
+      font-size: 1.05rem;
+    }
+
+    .movie-now span {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .pay-summary {
+      margin-top: 12px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,245,214,0.84));
+      border: 1px solid rgba(255,255,255,0.9);
+    }
+
+    .success-msg {
+      margin-top: 14px;
+      font-weight: 800;
+      color: var(--green-dark);
+      min-height: 1.2em;
+    }
+
+    @media (max-width: 980px) {
+      .layout { grid-template-columns: 1fr; }
+      .summary-card { position: static; }
+      .movie-grid { grid-template-columns: 1fr; }
+      .hero { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 720px) {
+      .container { padding: 18px 14px 34px; }
+      .panel, .login-card, .summary-card, .hero-card { padding: 18px; border-radius: 24px; }
+      .seat-row { grid-template-columns: 22px repeat(5, minmax(0, 1fr)); gap: 8px; }
+      .seat { min-height: 52px; border-radius: 14px; font-size: 0.88rem; }
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="float bear">🧸</div>
+  <div class="float duck">🦆</div>
+  <div class="float sparkle1">✨</div>
+  <div class="float sparkle2">💗</div>
+
+  <div id="loginView" class="login-wrap">
+    <div class="login-card">
+      <div class="login-emoji">🧸🦆</div>
+      <h1>Bear & Duck Movies</h1>
+      <p class="subtitle">A sweet little booking site for the cutest movie date.</p>
+
+      <div class="field">
+        <label for="username">Username</label>
+        <input id="username" type="text" placeholder="Please Insert Your Username" />
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" type="password" placeholder="Please Insert Your Password" />
+      </div>
+      <div class="error" id="loginError"></div>
+      <button class="btn btn-primary" style="width:100%; margin-top: 8px;" onclick="login()">Login</button>
+      <p class="notice" style="margin-top: 14px;">Made by: <strong>Bear</strong></p>
+    </div>
+  </div>
+
+  <div id="appView" class="hidden">
+    <div class="container">
+      <div class="hero">
+        <div class="hero-card">
+          <h1>Bear & Duck Movies</h1>
+          <p class="subtitle">Choose a movie, pick a couple seat, then pay with a card or redeem a cute coupon.</p>
+        </div>
+        <div class="top-badge">
+          <div class="brand">Welcome!</div>
+          <div class="meta">🧸 Cozy bears • 🦆 Happy ducks</div>
+          <div class="meta">Happy 3rd Month! <strong>Love you <3</strong></div>
+        </div>
+      </div>
+
+      <div class="layout">
+        <main>
+          <div id="moviePanel" class="panel">
+            <div class="section-title">
+              <div class="icon">🎬</div>
+              <div>
+                <h2>Choose a movie</h2>
+                <p>Tap a poster and continue straight to seats.</p>
+              </div>
+            </div>
+
+            <div class="movie-grid movie-grid-large" id="movieGrid"></div>
+            <div class="movie-now" id="movieNow">
+              <div>
+                <strong id="chosenMovieText">No movie chosen yet</strong><br>
+                <span>Tap a poster to select your screening.</span>
+              </div>
+              <button class="btn btn-primary hidden" id="movieNextBtn" onclick="showSeatStep()">Choose seats →</button>
+            </div>
+          </div>
+
+          <div id="seatPanel" class="panel hidden" style="margin-top:20px;">
+            <div class="section-title">
+              <div class="icon">💺</div>
+              <div>
+                <h2>Pick a couple seat</h2>
+                <p>Red seats are occupied. Green seats are available.</p>
+              </div>
+            </div>
+
+            <div class="screen-block">
+              <div class="screen">Screen</div>
+              <div class="seat-grid" id="seatGrid"></div>
+              <div class="seat-key">
+                <span class="key"><span class="dot green"></span> Available</span>
+                <span class="key"><span class="dot pink"></span> Selected</span>
+                <span class="key"><span class="dot red"></span> Occupied</span>
+              </div>
+            </div>
+
+            <div class="seat-footer">
+              <div>
+                <div class="pill">Selected seat: <span id="seatText">None</span></div>
+                <div class="mini-note" id="seatMovieText">Movie: —</div>
+              </div>
+              <div class="small-btn-row">
+                <button class="btn btn-soft" onclick="backToMovie()">Back</button>
+                <button class="btn btn-primary" onclick="goToPayment()">Go to payment</button>
+              </div>
+            </div>
+          </div>
+
+          <div id="payPanel" class="panel hidden" style="margin-top:20px;">
+            <div class="section-title">
+              <div class="icon">💳</div>
+              <div>
+                <h2>Payment</h2>
+                <p>Pick a payment method and complete the booking.</p>
+              </div>
+            </div>
+
+            <div class="pay-summary">
+              <div class="summary-item" style="margin-bottom:10px;">
+                <span>Movie</span><strong id="payMovie">—</strong>
+              </div>
+              <div class="summary-item" style="margin-bottom:10px;">
+                <span>Seat</span><strong id="paySeat">—</strong>
+              </div>
+              <div class="summary-item">
+                <span>Total</span><strong>RM 18.00</strong>
+              </div>
+            </div>
+
+            <div class="tabs">
+              <button class="tab active" id="couponTab" onclick="setPaymentTab('coupon')">🏷️ Coupon</button>
+              <button class="tab" id="cardTab" onclick="setPaymentTab('card')">💳 Card</button>
+            </div>
+
+            <div id="couponBox" class="pay-card coupon-box">
+              <h3>Redeem with coupon</h3>
+              <p class="notice">Enter the special code to redeem your ticket.</p>
+              <div class="field">
+                <label for="couponInput">Coupon code</label>
+                <input id="couponInput" type="text" placeholder="Coupon Code" />
+              </div>
+            </div>
+
+            <div id="cardBox" class="pay-card card-box hidden">
+              <h3>Pay by card</h3>
+              <div class="grid-2">
+                <div class="field">
+                  <label for="cardName">Name on card</label>
+                  <input id="cardName" type="text" placeholder="Cute Bear" />
+                </div>
+                <div class="field">
+                  <label for="cardNumber">Card number</label>
+                  <input id="cardNumber" type="text" placeholder="1234 5678 9012 3456" />
+                </div>
+              </div>
+              <div class="grid-2">
+                <div class="field">
+                  <label for="cardExpiry">Expiry</label>
+                  <input id="cardExpiry" type="text" placeholder="MM/YY" />
+                </div>
+                <div class="field">
+                  <label for="cardCvv">CVV</label>
+                  <input id="cardCvv" type="text" placeholder="123" />
+                </div>
+              </div>
+            </div>
+
+            <div class="error" id="payError"></div>
+            <div class="pay-footer">
+              <div class="pill">Booking is almost ready ✨</div>
+              <div class="small-btn-row">
+                <button class="btn btn-soft" onclick="backToSeats()">Back</button>
+                <button class="btn btn-primary" onclick="finishBooking()">Pay now</button>
+              </div>
+            </div>
+          </div>
+
+          <div id="donePanel" class="panel hidden done-card" style="margin-top:20px;">
+            <div class="done-emoji">🎉</div>
+            <h2 class="done-title">Enjoy your movie date!</h2>
+            <p class="done-sub">Your ticket has been confirmed successfully.</p>
+            <div class="tag-row">
+              <span class="tag-pill">🧸 Bear-approved</span>
+              <span class="tag-pill">🦆 Duck-certified</span>
+              <span class="tag-pill">🍿 Ready for popcorn</span>
+            </div>
+            <button class="btn btn-primary" style="margin-top:22px;" onclick="restart()">Book another movie</button>
+          </div>
+        </main>
+
+        <aside class="summary-card">
+          <div class="section-title">
+            <div class="icon">💞</div>
+            <div>
+              <h2>Your booking</h2>
+              <p>Everything in one cute little place.</p>
+            </div>
+          </div>
+
+          <div class="summary-list">
+            <div class="summary-item">
+              <span>Movie</span>
+              <strong id="sideMovie">None</strong>
+            </div>
+            <div class="summary-item">
+              <span>Seat</span>
+              <strong id="sideSeat">None</strong>
+            </div>
+            <div class="summary-item">
+              <span>Payment</span>
+              <strong id="sidePay">Coupon</strong>
+            </div>
+            <div class="summary-item">
+              <span>Status</span>
+              <strong id="sideStatus">Waiting</strong>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const movies = [
+      {
+        title: 'Spiderman: Across the Spiderverse',
+        time: 'Anytime',
+        genre: 'Spiderman!',
+        emoji: '🌙🕷️🕸️',
+        desc: 'SPIDERMANNNN!.',
+        bg: 'linear-gradient(160deg, #ff9ec4 0%, #ffd27b 48%, #fff2b8 100%)'
+      },
+      {
+        title: 'Kimetsu no Yaiba Movie',
+        time: 'Anytime',
+        genre: 'Anime',
+        emoji: '✨⚔️🧟',
+        desc: 'TANJIROOOOO!',
+        bg: 'linear-gradient(160deg, #8be8ff 0%, #aef0b5 46%, #fff0b5 100%)'
+      },
+      {
+        title: 'Jujutsu Kaisen 0',
+        time: 'Anytime',
+        genre: 'Anime',
+        emoji: '🧸👁️🔮',
+        desc: 'GOJO SATORU!',
+        bg: 'linear-gradient(160deg, #ffb39b 0%, #ffd0cc 48%, #d6eef0 100%)'
+      }
+    ];
+
+    let chosenMovie = null;
+    let chosenSeat = null;
+    let paymentTab = 'coupon';
+    const occupiedSeats = new Set(['A2', 'B4', 'C1']);
+
+    const movieGrid = document.getElementById('movieGrid');
+    const seatGrid = document.getElementById('seatGrid');
+
+    function login() {
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const loginError = document.getElementById('loginError');
+
+      if (password === 'iluvbear') {
+        loginError.textContent = '';
+        document.getElementById('loginView').classList.add('hidden');
+        document.getElementById('appView').classList.remove('hidden');
+        renderMovies();
+        renderSeats();
+        updateSidebar();
+      } else {
+        loginError.textContent = 'Wrong password. Please try again.';
+      }
+    }
+
+    function renderMovies() {
+      movieGrid.innerHTML = movies.map((movie, index) => `
+        <button class="movie-card ${chosenMovie === index ? 'selected' : ''}" onclick="chooseMovie(${index})" aria-label="Choose ${movie.title}">
+          <div class="poster" style="--bg:${movie.bg}; background:${movie.bg};"></div>
+          <div class="poster-overlay"></div>
+          <div class="poster-content">
+            <div class="poster-top">
+              <div class="tag">Tap to choose</div>
+              <div class="movie-emoji">${movie.emoji}</div>
+            </div>
+            <div>
+              <h3 class="movie-title">${movie.title}</h3>
+              <p class="movie-sub">${movie.time} • ${movie.genre}</p>
+              <p class="movie-desc">${movie.desc}</p>
+            </div>
+          </div>
+        </button>
+      `).join('');
+    }
+
+    function chooseMovie(index) {
+      chosenMovie = index;
+      chosenSeat = null;
+      renderMovies();
+      renderSeats();
+      updateSidebar();
+      showSeatStep();
+    }
+
+    function showSeatStep() {
+      document.getElementById('moviePanel').classList.add('hidden');
+      document.getElementById('seatPanel').classList.remove('hidden');
+      document.getElementById('payPanel').classList.add('hidden');
+      document.getElementById('donePanel').classList.add('hidden');
+      updateSidebar();
+    }
+
+    function backToMovie() {
+      document.getElementById('seatPanel').classList.add('hidden');
+      document.getElementById('moviePanel').classList.remove('hidden');
+      updateSidebar();
+    }
+
+    function backToSeats() {
+      document.getElementById('payPanel').classList.add('hidden');
+      document.getElementById('seatPanel').classList.remove('hidden');
+      updateSidebar();
+    }
+
+    function renderSeats() {
+      const rows = ['A', 'B', 'C'];
+      seatGrid.innerHTML = rows.map(row => `
+        <div class="seat-row">
+          <div class="row-label">${row}</div>
+          ${[1,2,3,4,5].map(n => {
+            const seatId = `${row}${n}`;
+            const occupied = occupiedSeats.has(seatId);
+            const selected = chosenSeat === seatId;
+            return `<button class="seat ${occupied ? 'occupied' : selected ? 'selected' : 'available'}" ${occupied ? 'disabled' : ''} onclick="pickSeat('${seatId}')">${seatId}${occupied ? '<br>Occupied' : '<br>Couple'}</button>`;
+          }).join('')}
+        </div>
+      `).join('');
+      updateSeatText();
+    }
+
+    function pickSeat(seatId) {
+      if (occupiedSeats.has(seatId)) return;
+      chosenSeat = seatId;
+      renderSeats();
+      updateSidebar();
+    }
+
+    function updateSeatText() {
+      document.getElementById('seatText').textContent = chosenSeat || 'None';
+      document.getElementById('seatMovieText').textContent = chosenMovie !== null ? `Movie: ${movies[chosenMovie].title}` : 'Movie: —';
+      document.getElementById('paySeat').textContent = chosenSeat || '—';
+      document.getElementById('payMovie').textContent = chosenMovie !== null ? movies[chosenMovie].title : '—';
+    }
+
+    function goToPayment() {
+      if (chosenMovie === null) {
+        alert('Choose a movie first.');
+        return;
+      }
+      if (!chosenSeat) {
+        alert('Choose a seat first.');
+        return;
+      }
+      document.getElementById('seatPanel').classList.add('hidden');
+      document.getElementById('payPanel').classList.remove('hidden');
+      document.getElementById('donePanel').classList.add('hidden');
+      updateSeatText();
+      updateSidebar();
+    }
+
+    function setPaymentTab(tab) {
+      paymentTab = tab;
+      document.getElementById('couponTab').classList.toggle('active', tab === 'coupon');
+      document.getElementById('cardTab').classList.toggle('active', tab === 'card');
+      document.getElementById('couponBox').classList.toggle('hidden', tab !== 'coupon');
+      document.getElementById('cardBox').classList.toggle('hidden', tab !== 'card');
+      document.getElementById('sidePay').textContent = tab === 'coupon' ? 'Coupon' : 'Card';
+      document.getElementById('payError').textContent = '';
+    }
+
+    function finishBooking() {
+      const payError = document.getElementById('payError');
+      payError.textContent = '';
+
+      if (paymentTab === 'coupon') {
+        const coupon = document.getElementById('couponInput').value.trim().toLowerCase();
+        if (coupon !== 'duckluvbear') {
+          payError.textContent = 'Invalid coupon code. Please try again.';
+          return;
+        }
+      } else {
+        const name = document.getElementById('cardName').value.trim();
+        const number = document.getElementById('cardNumber').value.trim();
+        const expiry = document.getElementById('cardExpiry').value.trim();
+        const cvv = document.getElementById('cardCvv').value.trim();
+
+        if (!name || !number || !expiry || !cvv) {
+          payError.textContent = 'Please fill in all card details.';
+          return;
+        }
+      }
+
+      document.getElementById('payPanel').classList.add('hidden');
+      document.getElementById('donePanel').classList.remove('hidden');
+      document.getElementById('sideStatus').textContent = 'Confirmed';
+      updateSidebar();
+    }
+
+    function updateSidebar() {
+      document.getElementById('sideMovie').textContent = chosenMovie !== null ? movies[chosenMovie].title : 'None';
+      document.getElementById('sideSeat').textContent = chosenSeat || 'None';
+      document.getElementById('sidePay').textContent = paymentTab === 'coupon' ? 'Coupon' : 'Card';
+      document.getElementById('sideStatus').textContent = document.getElementById('donePanel').classList.contains('hidden') ? 'Waiting' : 'Confirmed';
+      document.getElementById('chosenMovieText').textContent = chosenMovie !== null ? `Selected: ${movies[chosenMovie].title}` : 'No movie chosen yet';
+      document.getElementById('movieNextBtn').classList.toggle('hidden', chosenMovie === null);
+      updateSeatText();
+      renderMovies();
+      const movieNow = document.getElementById('movieNow');
+      if (chosenMovie !== null) {
+        movieNow.querySelector('span').textContent = 'Tap a different poster anytime to change the movie.';
+      } else {
+        movieNow.querySelector('span').textContent = 'Tap a poster to select your screening.';
+      }
+    }
+
+    function restart() {
+      chosenMovie = null;
+      chosenSeat = null;
+      paymentTab = 'coupon';
+      document.getElementById('couponInput').value = '';
+      document.getElementById('cardName').value = '';
+      document.getElementById('cardNumber').value = '';
+      document.getElementById('cardExpiry').value = '';
+      document.getElementById('cardCvv').value = '';
+      document.getElementById('moviePanel').classList.remove('hidden');
+      document.getElementById('seatPanel').classList.add('hidden');
+      document.getElementById('payPanel').classList.add('hidden');
+      document.getElementById('donePanel').classList.add('hidden');
+      setPaymentTab('coupon');
+      renderMovies();
+      renderSeats();
+      updateSidebar();
+    }
+
+    // initialize payment tab state
+    setPaymentTab('coupon');
+  </script>
+</body>
+</html>
+
